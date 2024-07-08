@@ -1,10 +1,14 @@
+import { Outlet } from "react-router-dom";
 import "./App.css";
-import { Button } from "@/components/ui/button";
+import Header from "./components/Common/Header";
+import Footer from "./components/Common/Footer";
 
 function App() {
   return (
-    <div>
-      <Button>Click me</Button>
+    <div className="w-full h-screen">
+      <Header />
+      <Outlet />
+      <Footer />
     </div>
   );
 }
