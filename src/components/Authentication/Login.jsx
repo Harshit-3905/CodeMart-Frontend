@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { loginUser } from "@/services/services";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -39,10 +39,13 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className="flex items-center justify-center pt-5">
+        <div className="flex items-center justify-center pt-5 gap-10">
           <Button type="submit" onClick={LoginHandler} disabled={loading}>
             {loading ? "Loading" : "Login"}
           </Button>
+          <Link to="/auth/signUp">
+            <Button>SignUp</Button>
+          </Link>
         </div>
       </div>
     </div>

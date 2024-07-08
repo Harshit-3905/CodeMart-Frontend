@@ -30,6 +30,8 @@ async function loginUser({ email, password }) {
       }
     );
     const AuthToken = response.data.data.AuthToken;
+    const userRole = response.data.data.user.role;
+    localStorage.setItem("userRole", userRole);
     localStorage.setItem("AuthToken", AuthToken);
     return response.data;
   } catch (error) {
@@ -49,6 +51,7 @@ async function logoutUser() {
       }
     );
     localStorage.removeItem("AuthToken");
+    localStorage.removeItem("userRole");
     return response.data;
   } catch (error) {
     console.error(error);
@@ -63,7 +66,7 @@ async function getCategories() {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error(error);
   }
@@ -91,16 +94,16 @@ async function addCategory({ name }) {
 
 async function addProduct({ title, price, image, details, category }) {
   try {
-    const FormData = new FormData();
-    FormData.append("title", title);
-    FormData.append("price", price);
-    FormData.append("image", image);
-    FormData.append("details", details);
-    FormData.append("category", category);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("price", price);
+    formData.append("image", image);
+    formData.append("details", details);
+    formData.append("category", category);
     const token = localStorage.getItem("AuthToken");
     const response = await axios.post(
       "http://localhost:8000/api/v1/product/",
-      FormData,
+      formData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -121,6 +124,47 @@ async function getProducts() {
         Authorization: `Bearer ${token}`,
       },
     });
+    return response.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function getProduct(id) {
+  try {
+    const token = localStorage.getItem("AuthToken");
+    const response = await axios.get(
+      `http://localhost:8000/api/v1/product/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function updateProduct({ id, title, price, image, details, category }) {
+  try {
+    const token = localStorage.getItem("AuthToken");
+    const response = await axios.put(
+      `http://localhost:8000/api/v1/product/${id}`,
+      {
+        title,
+        price,
+        image,
+        details,
+        category,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -135,4 +179,6 @@ export {
   addCategory,
   addProduct,
   getProducts,
+  getProduct,
+  updateProduct,
 };

@@ -5,9 +5,11 @@ import Footer from "./components/Common/Footer";
 
 function App() {
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-full bg-sky-300">
       <Header />
-      <Outlet />
+      <div className="min-h-[87vh]">
+        <Outlet />
+      </div>
       <Footer />
     </div>
   );
