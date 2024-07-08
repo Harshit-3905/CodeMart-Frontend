@@ -19,7 +19,7 @@ const Login = () => {
     setPassword("");
   };
   return (
-    <div className="w-[40vw] flex flex-col gap-5">
+    <div className="w-[40vw] flex flex-col gap-5 items-center">
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <Label htmlFor="email">Email</Label>
         <Input

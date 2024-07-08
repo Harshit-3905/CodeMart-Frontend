@@ -13,11 +13,11 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 
 const AddProductPage = (product) => {
-  const [title, setTitle] = useState(product?.product.title || "");
-  const [price, setPrice] = useState(product?.product.price || "");
-  const [image, setImage] = useState(product?.product.image || "");
-  const [details, setDetails] = useState(product?.product.details || "");
-  const [category, setCategory] = useState(product?.product.category || "");
+  const [title, setTitle] = useState(product.product?.title || "");
+  const [price, setPrice] = useState(product.product?.price || "");
+  const [image, setImage] = useState(product.product?.image || "");
+  const [details, setDetails] = useState(product.product?.details || "");
+  const [category, setCategory] = useState(product.product?.category || "");
   const [allCategories, setAllCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -34,6 +34,14 @@ const AddProductPage = (product) => {
   };
   const EditHandler = async () => {
     setLoading(true);
+    console.log({
+      id: product.product._id,
+      title,
+      price,
+      image,
+      details,
+      category,
+    });
     await updateProduct({
       id: product.product._id,
       title,
@@ -53,8 +61,11 @@ const AddProductPage = (product) => {
     fetchCategories();
   }, []);
   return (
-    <div className="w-full">
-      <div className="w-[40vw] flex flex-col gap-5">
+    <div className="w-full h-full flex flex-col items-center justify-center p-10 ">
+      <h1 className="text-3xl font-bold text-center p-5">
+        {product.product ? "Edit Product" : "Add Product"}
+      </h1>
+      <div className=" flex flex-col gap-5">
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label htmlFor="title">Title</Label>
           <Input
@@ -80,7 +91,6 @@ const AddProductPage = (product) => {
           <Input
             id="image"
             type="file"
-            // value={image}
             onChange={(e) => setImage(e.target.files[0])}
           />
         </div>
@@ -106,20 +116,30 @@ const AddProductPage = (product) => {
             ))}
           </SelectContent>
         </Select>
-        <div className="flex items-center justify-center pt-5">
-          {product ? (
-            <Button type="submit" onClick={SubmitHandler} disabled={loading}>
-              {loading ? "Loading" : "Add"}
-            </Button>
-          ) : (
-            <Button type="submit" onClick={EditHandler} disabled={loading}>
+        <div className="w-full flex items-center justify-center pt-5 gap-5">
+          {product.product ? (
+            <Button
+              type="submit"
+              onClick={EditHandler}
+              disabled={loading}
+              className="bg-green-700"
+            >
               {loading ? "Loading" : "Edit"}
             </Button>
+          ) : (
+            <Button
+              type="submit"
+              onClick={SubmitHandler}
+              disabled={loading}
+              className="bg-green-700"
+            >
+              {loading ? "Loading" : "Add"}
+            </Button>
           )}
+          <Link to="/" className="flex items-center justify-center">
+            <Button>Go Back</Button>
+          </Link>
         </div>
-        <Link to="/" className="flex items-center justify-center">
-          <Button>Go Back</Button>
-        </Link>
       </div>
     </div>
   );

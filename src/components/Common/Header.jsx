@@ -1,5 +1,5 @@
 import { Button } from "../ui/button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logoutUser } from "@/services/services";
 import { useState } from "react";
 
@@ -16,11 +16,11 @@ const Header = () => {
     navigate("/");
   };
   return (
-    <div className="w-full h-[8vh] flex justify-around items-center bg-green-400 text-center text-2xl ">
-      CodeMart
+    <div className="w-full h-[8vh] flex justify-around items-center bg-green-500 text-center text-2xl ">
+      <Link to="/">CodeMart</Link>
       <div className="">
-        <Button onClick={loggedIn ? logout : login}>
-          {loggedIn ? "Logout" : "Log In/Sign Up"}
+        <Button className="bg-red-500" onClick={loggedIn ? logout : login}>
+          {loggedIn ? "LogOut" : "Log In/Sign Up"}
         </Button>
       </div>
     </div>
